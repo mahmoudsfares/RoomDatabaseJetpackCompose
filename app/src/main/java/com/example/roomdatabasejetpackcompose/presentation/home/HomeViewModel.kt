@@ -39,7 +39,13 @@ class HomeViewModel @Inject constructor(private val appDatabase: AppDatabase) : 
 
     fun addTask(task: Task) {
         viewModelScope.launch(Dispatchers.IO) {
-            appDatabase.getTaskDao().insertTask(task)
+            appDatabase.getTaskDao().insertTaskWithRank(task)
+        }
+    }
+
+    fun updateTasks(tasks: List<Task>) {
+        viewModelScope.launch(Dispatchers.IO) {
+            appDatabase.getTaskDao().updateTasks(tasks)
         }
     }
 

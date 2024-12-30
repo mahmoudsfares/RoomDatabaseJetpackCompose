@@ -16,18 +16,21 @@ interface TaskDao {
     @Query("SELECT COUNT(*) FROM TaskTable")
     suspend fun getTaskCount(): Int
 
-    @Query("SELECT * FROM TaskTable ORDER BY id ASC")
+    @Query("SELECT * FROM TaskTable ORDER BY rank ASC")
     fun getAllTasks(): Flow<List<Task>?>
 
     @Insert
     suspend fun insertTask(task: Task)
 
-//    @Transaction
-//    suspend fun insertTaskWithRank(task: Task) {
-//        val currentCount = getTaskCount()
-//        task.rank = currentCount + 1
-//        insertTask(task)
-//    }
+    @Transaction
+    suspend fun insertTaskWithRank(task: Task) {
+        val currentCount = getTaskCount()
+        task.rank = currentCount + 1
+        insertTask(task)
+    }
+
+    @Update
+    suspend fun updateTasks(tasks: List<Task>)
 
     @Update
     suspend fun updateTask(task: Task)
