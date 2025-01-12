@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.CircularProgressIndicator
@@ -13,13 +14,13 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.example.roomdatabasejetpackcompose.data.Resource
-import com.example.roomdatabasejetpackcompose.data.Task
 import com.example.roomdatabasejetpackcompose.navigation.Navigation
 import com.example.roomdatabasejetpackcompose.presentation.home.fragments.TaskListItem
 import org.burnoutcrew.reorderable.ReorderableItem
@@ -32,16 +33,12 @@ fun HomeScreen(navHostController: NavHostController, viewModel: HomeViewModel = 
 
     val tasks = viewModel.tasks.collectAsState(initial = Resource.Loading()).value
 
+    val theTasks = remember {
+        viewModel.myTasks
+    }
+
     val reorderableState = rememberReorderableLazyListState(
-        onMove = { from, to ->
-            val list: MutableList<Task> = (viewModel.tasks.value as? Resource.Success)?.data!!.toMutableList()
-            val movedTask = list.removeAt(from.index)
-            list.add(to.index, movedTask)
-            list.forEachIndexed { index, task ->
-                task.rank = index + 1
-            }
-            viewModel.updateTasks(list)
-        }
+        onMove = { from, to -> theTasks.apply { add(to.index, removeAt(from.index)) } }
     )
 
     Scaffold(
@@ -81,7 +78,7 @@ fun HomeScreen(navHostController: NavHostController, viewModel: HomeViewModel = 
                     }
                 }
             } else {
-                if (tasks.data!!.isEmpty()) {
+                if (theTasks.isEmpty()) {
                     item {
                         Box(
                             modifier = Modifier.fillParentMaxSize(),
@@ -91,16 +88,16 @@ fun HomeScreen(navHostController: NavHostController, viewModel: HomeViewModel = 
                         }
                     }
                 } else {
-                    items(tasks.data.size, key = {it}) { id ->
+                    items(theTasks, key = {it.id}) { task ->
                         ReorderableItem(
                             reorderableState = reorderableState,
-                            key = id
+                            key = task.id
                         ) {
                             Box(
                                 modifier = Modifier.padding(vertical = 8.dp)
                             ) {
                                 TaskListItem(
-                                    task = tasks.data[id],
+                                    task = task,
                                     onDeleteTask = { task -> viewModel.deleteTask(task) })
                             }
                         }
