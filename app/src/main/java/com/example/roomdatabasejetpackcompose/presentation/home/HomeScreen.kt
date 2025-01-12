@@ -38,7 +38,19 @@ fun HomeScreen(navHostController: NavHostController, viewModel: HomeViewModel = 
     }
 
     val reorderableState = rememberReorderableLazyListState(
-        onMove = { from, to -> theTasks.apply { add(to.index, removeAt(from.index)) } }
+        onMove = { from, to ->
+            theTasks.apply {
+                add(to.index, removeAt(from.index))
+            }
+        },
+        onDragEnd = { _, _ ->
+            run {
+                for (i in 0..<theTasks.size) {
+                    theTasks[i].rank = i
+                }
+                viewModel.updateTasks(theTasks)
+            }
+        }
     )
 
     Scaffold(
@@ -88,7 +100,7 @@ fun HomeScreen(navHostController: NavHostController, viewModel: HomeViewModel = 
                         }
                     }
                 } else {
-                    items(theTasks, key = {it.id}) { task ->
+                    items(theTasks, key = { it.id }) { task ->
                         ReorderableItem(
                             reorderableState = reorderableState,
                             key = task.id
