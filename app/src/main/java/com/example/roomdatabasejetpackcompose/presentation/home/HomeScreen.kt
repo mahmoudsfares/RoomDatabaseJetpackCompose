@@ -13,7 +13,9 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -21,6 +23,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.example.roomdatabasejetpackcompose.data.Resource
+import com.example.roomdatabasejetpackcompose.data.Task
 import com.example.roomdatabasejetpackcompose.navigation.Navigation
 import com.example.roomdatabasejetpackcompose.presentation.home.fragments.TaskListItem
 import org.burnoutcrew.reorderable.ReorderableItem
@@ -31,24 +34,30 @@ import org.burnoutcrew.reorderable.reorderable
 @Composable
 fun HomeScreen(navHostController: NavHostController, viewModel: HomeViewModel = hiltViewModel()) {
 
-    val tasks = viewModel.tasks.collectAsState(initial = Resource.Loading()).value
+    val tasks = viewModel.tasks.collectAsState().value
 
-    val theTasks = remember {
-        viewModel.myTasks
+    val reorderedTasks = remember { mutableStateListOf<Task>() }
+
+    LaunchedEffect(tasks) {
+        if (tasks is Resource.Success && tasks.data != null) {
+            tasks.data
+        } else {
+            emptyList()
+        }
     }
 
     val reorderableState = rememberReorderableLazyListState(
         onMove = { from, to ->
-            theTasks.apply {
+            reorderedTasks.apply {
                 add(to.index, removeAt(from.index))
             }
         },
         onDragEnd = { _, _ ->
             run {
-                for (i in 0..<theTasks.size) {
-                    theTasks[i].rank = i
+                val updatedTasks = reorderedTasks.mapIndexed { index, task ->
+                    task.copy(rank = index)
                 }
-                viewModel.updateTasks(theTasks)
+                viewModel.updateTasks(updatedTasks)
             }
         }
     )
@@ -90,7 +99,7 @@ fun HomeScreen(navHostController: NavHostController, viewModel: HomeViewModel = 
                     }
                 }
             } else {
-                if (theTasks.isEmpty()) {
+                if (reorderedTasks.isEmpty()) {
                     item {
                         Box(
                             modifier = Modifier.fillParentMaxSize(),
@@ -100,7 +109,7 @@ fun HomeScreen(navHostController: NavHostController, viewModel: HomeViewModel = 
                         }
                     }
                 } else {
-                    items(theTasks, key = { it.id }) { task ->
+                    items(reorderedTasks, key = { it.id }) { task ->
                         ReorderableItem(
                             reorderableState = reorderableState,
                             key = task.id

@@ -1,6 +1,5 @@
 package com.example.roomdatabasejetpackcompose.presentation.home
 
-import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.roomdatabasejetpackcompose.data.Resource
@@ -19,8 +18,6 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(private val appDatabase: AppDatabase) : ViewModel() {
 
-    var myTasks = mutableStateListOf<Task>()
-
     val tasks: StateFlow<Resource<List<Task>>> = appDatabase
         .getTaskDao()
         .getAllTasks()
@@ -28,12 +25,10 @@ class HomeViewModel @Inject constructor(private val appDatabase: AppDatabase) : 
             if (tasks.isNullOrEmpty()) {
                 Resource.Success(emptyList())
             } else {
-                myTasks.clear()
-                myTasks.addAll(tasks)
                 Resource.Success(tasks)
             }
         }
-        .catch { e ->
+        .catch {
             Resource.Error<List<Task>>("error occurred")
         }
         .stateIn(
