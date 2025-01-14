@@ -18,6 +18,7 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(private val appDatabase: AppDatabase) : ViewModel() {
 
+    // TODO 7: in the viewmodel, read from the database.. receive the data in a flow
     val tasks: StateFlow<Resource<List<Task>>> = appDatabase
         .getTaskDao()
         .getAllTasks()
@@ -37,8 +38,7 @@ class HomeViewModel @Inject constructor(private val appDatabase: AppDatabase) : 
             initialValue = Resource.Loading()
         )
 
-
-
+    // TODO 8: implement the rest of the needed operations
     fun addTask(task: Task) {
         viewModelScope.launch(Dispatchers.IO) {
             appDatabase.getTaskDao().insertTaskWithRank(task)

@@ -9,7 +9,7 @@ import androidx.room.Update
 import com.example.roomdatabasejetpackcompose.data.Task
 import kotlinx.coroutines.flow.Flow
 
-// TODO 4: create table dao, which defines the sql methods that will be used with its corresponding entity
+// TODO 3: create table dao, which defines the sql methods that will be used with its corresponding entity
 @Dao
 interface TaskDao {
 
@@ -22,6 +22,7 @@ interface TaskDao {
     @Insert
     suspend fun insertTask(task: Task)
 
+    // transaction: non-abstract methods in the dao that usually call other abstract method, used for data manipulation along with mere CRUD methods
     @Transaction
     suspend fun insertTaskWithRank(task: Task) {
         val currentCount = getTaskCount()

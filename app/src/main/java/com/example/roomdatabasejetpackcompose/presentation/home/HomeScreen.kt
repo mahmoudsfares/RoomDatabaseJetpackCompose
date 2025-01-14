@@ -34,15 +34,21 @@ import org.burnoutcrew.reorderable.reorderable
 @Composable
 fun HomeScreen(navHostController: NavHostController, viewModel: HomeViewModel = hiltViewModel()) {
 
+    // TODO 9: in the composable, collect the data from the flow in the viewmodel as state for it to be updated with changes
     val tasks = viewModel.tasks.collectAsState().value
 
+    // TODO 10: create a reordered tasks list to decouple ui state from database state
+    // in other words, it will temporarily reflect the new order in the ui in case of drag-and-drop reordering and avoid snapping back.
+    // if we directly used tasksState.data to display the tasks, the UI would "snap back" to the original order whenever the database updates.
+    // using this will a) ensure smooth and responsive drag-and-drop interactions, and b) allow us to use it to update the database after the dragging ends.
     val reorderedTasks = remember { mutableStateListOf<Task>() }
 
+    // TODO 11: THIS DOESN't WORK, when you add a task the app crashes
     LaunchedEffect(tasks) {
         if (tasks is Resource.Success && tasks.data != null) {
-            tasks.data
+            reorderedTasks.addAll(tasks.data)
         } else {
-            emptyList()
+            reorderedTasks.clear()
         }
     }
 
