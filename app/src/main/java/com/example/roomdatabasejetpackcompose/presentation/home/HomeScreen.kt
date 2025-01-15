@@ -35,23 +35,26 @@ import org.burnoutcrew.reorderable.reorderable
 fun HomeScreen(navHostController: NavHostController, viewModel: HomeViewModel = hiltViewModel()) {
 
     // TODO 9: in the composable, collect the data from the flow in the viewmodel as state for it to be updated with changes
-    val tasks = viewModel.tasks.collectAsState().value
+    val tasksState = viewModel.tasks.collectAsState().value
 
     // TODO 10: create a reordered tasks list to decouple ui state from database state
     // in other words, it will temporarily reflect the new order in the ui in case of drag-and-drop reordering and avoid snapping back.
     // if we directly used tasksState.data to display the tasks, the UI would "snap back" to the original order whenever the database updates.
     // using this will a) ensure smooth and responsive drag-and-drop interactions, and b) allow us to use it to update the database after the dragging ends.
+    // remember: preserves the state during composition
     val reorderedTasks = remember { mutableStateListOf<Task>() }
 
-    // TODO 11: THIS DOESN't WORK, when you add a task the app crashes
-    LaunchedEffect(tasks) {
-        if (tasks is Resource.Success && tasks.data != null) {
-            reorderedTasks.addAll(tasks.data)
-        } else {
-            reorderedTasks.clear()
+    // TODO 11: sync ui State (reorderedTasks) with Database State (tasksState)
+    // launchedEffect is usually used to listen to state changes
+    LaunchedEffect(tasksState) {
+        reorderedTasks.clear()
+        if (tasksState is Resource.Success && tasksState.data != null) {
+            reorderedTasks.addAll(tasksState.data)
         }
     }
 
+    // TODO 12: create reorderable state to be passed to the lazy column and reorderable list item
+    // defines the behavior for when an item is moved up or down, and for when the dragging ends
     val reorderableState = rememberReorderableLazyListState(
         onMove = { from, to ->
             reorderedTasks.apply {
@@ -77,6 +80,7 @@ fun HomeScreen(navHostController: NavHostController, viewModel: HomeViewModel = 
             }
         }
     ) { innerPadding ->
+        // TODO 13: pass the reorderable state to the column as follows
         LazyColumn(
             state = reorderableState.listState,
             modifier = Modifier
@@ -86,7 +90,7 @@ fun HomeScreen(navHostController: NavHostController, viewModel: HomeViewModel = 
                 .reorderable(reorderableState)
                 .detectReorderAfterLongPress(reorderableState),
         ) {
-            if (tasks is Resource.Loading) {
+            if (tasksState is Resource.Loading) {
                 item {
                     Box(
                         modifier = Modifier.fillParentMaxSize(),
@@ -95,7 +99,7 @@ fun HomeScreen(navHostController: NavHostController, viewModel: HomeViewModel = 
                         CircularProgressIndicator()
                     }
                 }
-            } else if (tasks is Resource.Error) {
+            } else if (tasksState is Resource.Error) {
                 item {
                     Box(
                         modifier = Modifier.fillParentMaxSize(),
@@ -115,6 +119,7 @@ fun HomeScreen(navHostController: NavHostController, viewModel: HomeViewModel = 
                         }
                     }
                 } else {
+                    // TODO 14: pass the reorderable state to the list item as follows, pay attention to the passed keys and make sure they're unique
                     items(reorderedTasks, key = { it.id }) { task ->
                         ReorderableItem(
                             reorderableState = reorderableState,
