@@ -1,8 +1,8 @@
-package com.example.roomdatabasejetpackcompose.data_source.database
+package com.example.mytodos.data_source.database
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
-import com.example.roomdatabasejetpackcompose.data.Task
+import com.example.mytodos.data.Task
 
 // TODO 4: create app database, introducing the involved entities and the dao getters
 @Database(

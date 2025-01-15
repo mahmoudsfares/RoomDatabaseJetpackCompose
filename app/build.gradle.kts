@@ -6,11 +6,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.roomdatabasejetpackcompose"
+    namespace = "com.example.mytodos"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.example.roomdatabasejetpackcompose"
+        applicationId = "com.example.mytodos"
         minSdk = 24
         targetSdk = 35
         versionCode = 1

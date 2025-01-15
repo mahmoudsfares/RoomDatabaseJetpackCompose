@@ -1,11 +1,11 @@
-package com.example.roomdatabasejetpackcompose.navigation
+package com.example.mytodos.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.roomdatabasejetpackcompose.presentation.home.HomeScreen
-import com.example.roomdatabasejetpackcompose.presentation.add_task.AddTaskScreen
+import com.example.mytodos.presentation.home.HomeScreen
+import com.example.mytodos.presentation.add_task.AddTaskScreen
 
 private object RouteNames {
     const val HOME = "home"

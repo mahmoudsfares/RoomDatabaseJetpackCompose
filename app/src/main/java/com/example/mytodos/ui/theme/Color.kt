@@ -1,4 +1,4 @@
-package com.example.roomdatabasejetpackcompose.ui.theme
+package com.example.mytodos.ui.theme
 
 import androidx.compose.ui.graphics.Color
 

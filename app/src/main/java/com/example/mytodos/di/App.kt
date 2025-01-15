@@ -1,4 +1,4 @@
-package com.example.roomdatabasejetpackcompose.di
+package com.example.mytodos.di
 
 import android.app.Application
 import dagger.hilt.android.HiltAndroidApp

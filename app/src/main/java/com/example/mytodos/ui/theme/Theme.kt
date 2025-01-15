@@ -1,6 +1,4 @@
-package com.example.roomdatabasejetpackcompose.ui.theme
-
-import android.app.Activity
+package com.example.mytodos.ui.theme
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme

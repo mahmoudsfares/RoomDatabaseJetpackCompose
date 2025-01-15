@@ -1,4 +1,4 @@
-package com.example.roomdatabasejetpackcompose.data
+package com.example.mytodos.data
 
 sealed class Resource<T>(
     val data: T? = null,

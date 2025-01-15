@@ -1,4 +1,4 @@
-package com.example.roomdatabasejetpackcompose
+package com.example.mytodos
 
 import org.junit.Test
 

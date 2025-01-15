@@ -1,10 +1,10 @@
-package com.example.roomdatabasejetpackcompose.presentation.home
+package com.example.mytodos.presentation.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.roomdatabasejetpackcompose.data.Resource
-import com.example.roomdatabasejetpackcompose.data.Task
-import com.example.roomdatabasejetpackcompose.data_source.database.AppDatabase
+import com.example.mytodos.data.Resource
+import com.example.mytodos.data.Task
+import com.example.mytodos.data_source.database.AppDatabase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.SharingStarted

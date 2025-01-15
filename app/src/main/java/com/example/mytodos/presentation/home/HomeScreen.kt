@@ -1,4 +1,4 @@
-package com.example.roomdatabasejetpackcompose.presentation.home
+package com.example.mytodos.presentation.home
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -22,10 +22,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
-import com.example.roomdatabasejetpackcompose.data.Resource
-import com.example.roomdatabasejetpackcompose.data.Task
-import com.example.roomdatabasejetpackcompose.navigation.Navigation
-import com.example.roomdatabasejetpackcompose.presentation.home.fragments.TaskListItem
+import com.example.mytodos.data.Resource
+import com.example.mytodos.data.Task
+import com.example.mytodos.navigation.Navigation
+import com.example.mytodos.presentation.home.fragments.TaskListItem
 import org.burnoutcrew.reorderable.ReorderableItem
 import org.burnoutcrew.reorderable.detectReorderAfterLongPress
 import org.burnoutcrew.reorderable.rememberReorderableLazyListState

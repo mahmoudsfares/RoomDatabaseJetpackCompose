@@ -1,8 +1,8 @@
-package com.example.roomdatabasejetpackcompose.di
+package com.example.mytodos.di
 
 import android.app.Application
 import androidx.room.Room
-import com.example.roomdatabasejetpackcompose.data_source.database.AppDatabase
+import com.example.mytodos.data_source.database.AppDatabase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

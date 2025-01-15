@@ -1,4 +1,4 @@
-package com.example.roomdatabasejetpackcompose.data_source.database
+package com.example.mytodos.data_source.database
 
 import androidx.room.Dao
 import androidx.room.Delete
@@ -6,7 +6,7 @@ import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Transaction
 import androidx.room.Update
-import com.example.roomdatabasejetpackcompose.data.Task
+import com.example.mytodos.data.Task
 import kotlinx.coroutines.flow.Flow
 
 // TODO 3: create table dao, which defines the sql methods that will be used with its corresponding entity

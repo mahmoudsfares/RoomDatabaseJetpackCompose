@@ -1,4 +1,4 @@
-package com.example.roomdatabasejetpackcompose.data
+package com.example.mytodos.data
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

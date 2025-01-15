@@ -1,4 +1,4 @@
-package com.example.roomdatabasejetpackcompose.presentation.home.fragments
+package com.example.mytodos.presentation.home.fragments
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -14,7 +14,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.example.roomdatabasejetpackcompose.data.Task
+import com.example.mytodos.data.Task
 
 @Composable
 fun TaskListItem(task: Task, onDeleteTask: (Task) -> Unit){
